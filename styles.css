@@ -1,0 +1,47 @@
+/* Stiluri personalizate */
+
+/* Stiluri pentru imaginea din bara de navigație */
+.navbar-brand img {
+    margin-right: 10px; /* Adaugă un spațiu mic între imagine și text */
+}
+
+/* Stiluri pentru secțiunea de calendar */
+#calendar {
+    background-color: #FFFFFF; /* Fundal alb */
+    border: 1px solid #000000; /* Bordură neagră */
+    padding: 20px; /* Spațiu interior */
+    margin-bottom: 20px; /* Spațiu de la marginea de jos */
+}
+
+/* Stiluri pentru secțiunea de calculator */
+#calculator {
+    background-color: #FFFFFF; /* Fundal alb */
+    border: 1px solid #000000; /* Bordură neagră */
+    padding: 20px; /* Spațiu interior */
+    margin-bottom: 20px; /* Spațiu de la marginea de jos */
+}
+
+/* Stiluri pentru meniul dropdown */
+.dropdown-menu {
+    background-color: #FFFF00; /* Fundal galben */
+    color: #000000; /* Text negru */
+}
+
+/* Stiluri pentru butonul dropdown */
+.dropdown-toggle {
+    background-color: #FFFF00; /* Fundal galben */
+    color: #000000; /* Text negru */
+    border: 1px solid #000000; /* Bordură neagră */
+}
+
+/* Stiluri pentru butoanele de calcul */
+.btn-calculate {
+    background-color: #000000; /* Fundal negru */
+    color: #FFFFFF; /* Text alb */
+    border: none; /* Fără bordură */
+    padding: 8px 16px; /* Spațiu în interior */
+    cursor: pointer; /* Cursor pointer */
+    margin-top: 10px; /* Spațiu de la marginea de sus */
+}
+
+h2{color:aqua};

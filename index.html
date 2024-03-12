@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Per Meeting App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+
+    <style>
+        /* Stiluri personalizate */
+
+        /* Stiluri pentru bara de navigație */
+        .navbar {
+            background-image: url('finalpoza2.jpeg'); /* Imagine de fundal */
+            background-size: auto 100%; /* Lățimea se va ajusta automat, iar înălțimea va fi 100% din înălțimea barei de navigație */
+            background-position: center; /* Centrează imaginea pe orizontală și verticală */
+            color: #333; /* Culorea textului */
+            position: relative; /* Poziție relativă pentru a poziționa subelementele */
+            height: 200px; /* Înălțimea redusă a barei de navigație */
+            padding-top: 30px; /* Spațiu suplimentar de sus */
+        }
+
+        /* Stiluri pentru opțiuni de navigație */
+        .navbar-nav {
+            position: absolute; /* Poziție absolută pentru a poziționa în colțuri */
+            left: 20px; /* Poziționare la stânga */
+            top: 220px; /* Poziționare sub imaginea de copertă */
+            display: flex; /* Așezare flexibilă a elementelor */
+            flex-direction: column; /* Așezare verticală a elementelor */
+            gap: 10px; /* Spațiu între elemente */
+        }
+
+        .option {
+            transition: transform 0.3s ease; /* Animatie la hover */
+            background-color: #ffd700; /* Culoare fundal */
+            color: #333; /* Culoare text */
+            padding: 10px 20px; /* Spațiu interior */
+            border-radius: 20px; /* Colțuri rotunjite */
+            text-decoration: none; /* Fără subliniere */
+            font-weight: bold; /* Text bold */
+            text-align: center; /* Aliniere text la centru */
+        }
+
+        .selected-option {
+            transition: transform 0.3s ease; /* Animatie la hover */
+            background-color: #f5a105; /* Culoare fundal */
+            color: #333; /* Culoare text */
+            padding: 10px 20px; /* Spațiu interior */
+            border-radius: 20px; /* Colțuri rotunjite */
+            text-decoration: none; /* Fără subliniere */
+            font-weight: bold; /* Text bold */
+            text-align: center; /* Aliniere text la centru */
+        }
+
+        .option:hover {
+            transform: translateY(-5px); /* Deplasare în sus la hover */
+            background-color: #ffda3a; /* Culoare fundal la hover */
+            color: #fff; /* Culoare text la hover */
+        }
+
+        /* Stiluri pentru titluri secțiuni */
+        h2 {
+            color: #333; /* Negru */
+            margin-bottom: 20px; /* Spațiu de la marginea de jos */
+            border-bottom: 2px solid #333; /* Linie sub titlu */
+            padding-bottom: 5px; /* Spațiu sub linie */
+        }
+
+        /* Stiluri pentru secțiuni */
+        .section {
+            background-color: #f7f7f7; /* Gri deschis */
+            border: 1px solid #ddd; /* Gri mai deschis */
+            padding: 20px; /* Spațiu interior */
+            margin-bottom: 20px; /* Spațiu de la marginea de jos */
+            transition: transform 0.3s ease; /* Tranzitie la hover */
+        }
+
+        .section:hover {
+            transform: scale(1.05); /* Mărire la hover */
+        }
+
+        /* Stiluri pentru butoane */
+        .btn-calculate {
+            background-color: #ffd700; /* Galben deschis */
+            color: #333; /* Negru */
+            border: none; /* Fără bordură */
+            padding: 10px 20px; /* Spațiu interior */
+            cursor: pointer; /* Cursor pointer */
+            transition: background-color 0.3s ease; /* Tranzitie la hover */
+            border-radius: 10px; /* Colțuri rotunjite */
+            display: block; /* Face butonul să fie un bloc */
+            margin-bottom: 10px; /* Spațiu de la marginea de jos */
+            text-align: center; /* Aliniere text la centru */
+            font-weight: bold; /* Text bold */
+        }
+
+        .btn-calculate:hover {
+            background-color: #ffda3a; /* Galben închis la hover */
+            color: #fff; /* Schimbăm culoarea textului la hover */
+        }
+
+        /* Stiluri pentru input-uri și select */
+        input[type="number"], select {
+            margin-bottom: 10px; /* Spațiu de la marginea de jos */
+            padding: 5px; /* Spațiu interior */
+            width: 100%; /* Lățime completă */
+            border: 1px solid #ddd; /* Gri mai deschis */
+            border-radius: 5px; /* Colțuri rotunjite */
+            box-sizing: border-box; /* Asigură calculul corect al dimensiunilor */
+        }
+
+        /* Stiluri pentru butoanele de categorie */
+        #meeting-categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Două coloane egale */
+            gap: 20px; /* Spațiu între butoane */
+        }
+
+        .meeting-category {
+            background-color: #ffd700; /* Galben deschis */
+            color: #333; /* Negru */
+            border: none; /* Fără bordură */
+            padding: 10px; /* Spațiu interior */
+            text-align: center; /* Aliniere text la centru */
+            cursor: pointer; /* Cursor pointer */
+            transition: background-color 0.3s ease; /* Tranzitie la hover */
+            border-radius: 10px; /* Colțuri rotunjite */
+            margin-bottom: 10px; /* Spațiu de la marginea de jos */
+        }
+
+        .meeting-category:last-child {
+            grid-column: 1 / -1; /* Ocupă toate coloanele */
+            text-align: center; /* Aliniere text la centru */
+        }
+
+        .meeting-category:hover {
+            background-color: #ffda3a; /* Galben închis la hover */
+            color: #fff; /* Schimbăm culoarea textului la hover */
+        }
+
+        .meeting-category i {
+            margin-right: 10px; /* Spațiu între pictogramă și text */
+        }
+
+        /* Stiluri pentru spațiu liber sub imagine */
+        .spacer {
+            height: 30px; /* Înălțimea spațiului liber */
+        }
+    </style>
+</head>
+<body>
+    <!-- Bara de navigație -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <!-- Imagine de copertă -->
+            <img src="pozamea.png" alt="" class="cover-photo">
+        </a>
+        <!-- Opțiuni de navigație -->
+        <div class="navbar-nav">
+            <a href="index.html" class="selected-option">Acasa</a>
+            <a href="myprofile.php" class="option">Profilul meu</a>
+            <a href="istoric.php" class="option">Istoric Meetinguri</a>
+            <a href="signup.php" class="option">Deconectati-va</a>
+        </div>
+    </nav>
+
+    <!-- Spațiu liber sub imagine -->
+    <div class="spacer"></div>
+
+    <!-- Restul codului -->
+    <div class="container">
+        <div class="row">
+            <!-- Calculator Cost Per Meeting -->
+            <div class="col-md-6 order-md-2">
+                <div class="section">
+                    <h2>Calculator Cost Per Meeting</h2>
+                    <div id="meeting-categories">
+                        <button class="meeting-category">Sedintă de echipă</button>
+                        <button class="meeting-category">1:1 cu managerul</button>
+                        <button class="meeting-category">Sesiune de brainstorming</button>
+                        <button class="meeting-category">Training</button>
+                        <button class="meeting-category">Sincronizare Proiect</button>
+                    </div>
+                    <br>
+                    <label for="num-participants">Număr participanți:</label>
+                    <input type="number" id="num-participants" min="1">
+                    <br>
+                    <label for="duration">Durată întâlnire (ore):</label>
+                    <input type="number" id="duration" min="1" max="24">
+                    <br>
+                    <button id="calculate-btn" class="btn-calculate">Calculează costul întâlnirii</button>
+                    <p id="meeting-cost"></p>
+                </div>
+            </div>
+            <!-- Calendar Săptămânal -->
+            <div class="col-md-6 order-md-1">
+                <div class="section">
+                    <h2>Calendar Săptămânal</h2>
+                    <div id="calendar">
+                        <!-- Calendar content will be loaded dynamically here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Funcția pentru a calcula costul întâlnirii
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            // Obține valoarea selectată pentru categoria întâlnirii
+            var meetingCategory = document.querySelector('.meeting-category.active').textContent;
+            // Obține numărul de participanți
+            var numParticipants = parseInt(document.getElementById('num-participants').value);
+            // Obține durata întâlnirii
+            var duration = parseInt(document.getElementById('duration').value);
+            // Calculează costul întâlnirii (doar un exemplu simplificat pentru demonstrație)
+            var meetingCost = numParticipants * duration * 10; // Exemplu simplificat de calcul
+            // Afișează costul întâlnirii
+            document.getElementById('meeting-cost').textContent = 'Costul întâlnirii pentru ' + meetingCategory + ' este: $' + meetingCost;
+        });
+
+        // Adăugă și elimină clasa activă pentru butoanele de categorie întâlnire la click
+        var categoryButtons = document.querySelectorAll('.meeting-category');
+        categoryButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                slotDuration: '00:30:00',
+                allDaySlot: false,
+                nowIndicator: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay'
+                },
+                height: 'auto',
+                events: [
+                    // Aici poți adăuga evenimente predefinite, dacă dorești
+                ]
+            });
+
+            calendar.render();
+        });
+
+    </script>
+</body>
+</html>
